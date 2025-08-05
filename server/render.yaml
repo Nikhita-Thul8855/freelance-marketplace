@@ -1,0 +1,15 @@
+{
+  "name": "freelance-marketplace-backend",
+  "env": {
+    "NODE_ENV": "production"
+  },
+  "build": {
+    "commands": ["npm install"]
+  },
+  "start": {
+    "command": "npm start"
+  },
+  "healthcheck": {
+    "path": "/api/health"
+  }
+}

@@ -1,0 +1,27 @@
+# Railway Deployment Configuration
+# This file is automatically detected by Railway
+
+# Build Configuration
+[build]
+  builder = "nixpacks"
+
+[deploy]
+  startCommand = "npm start"
+  restartPolicyType = "on-failure"
+  restartPolicyMaxRetries = 10
+
+# Environment
+[env]
+  NODE_ENV = "production"
+  PORT = "$PORT"
+
+# Health Check
+[healthcheck]
+  path = "/api/health"
+  interval = "30s"
+  timeout = "10s"
+  retries = 3
+
+# Networking
+[networking]
+  allowedPorts = ["$PORT"]
