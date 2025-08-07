@@ -51,6 +51,8 @@ const corsOptions = {
       // Production Vercel URLs
       'https://freelance-marketplace-blyp.vercel.app',
       'https://freelance-marketplace-blyp-h3243xgxh-nikhita-taksandes-projects.vercel.app',
+      'https://freelance-marketplace-uooi.vercel.app',
+      'https://freelance-marketplace-flq6ywgng-nikhita-taksandes-projects.vercel.app',
       // Environment variables
       process.env.FRONTEND_URL,
       process.env.CLIENT_URL
