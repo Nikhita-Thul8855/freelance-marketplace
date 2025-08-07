@@ -67,7 +67,7 @@ router.get('/', async (req, res) => {
       },
       {
         title: 'I will design a professional logo for your business',
-        category: 'Design',
+        category: 'Design & Creative',
         description: 'I will create a unique, professional logo that perfectly represents your brand. You will receive multiple concepts, unlimited revisions, and final files in all formats.',
         price: 149,
         deliveryTime: 3,
