@@ -48,7 +48,10 @@ const corsOptions = {
       'http://localhost:3001',
       'https://localhost:3000',
       'https://localhost:3001',
-      // Add your production frontend URLs here
+      // Production Vercel URLs
+      'https://freelance-marketplace-blyp.vercel.app',
+      'https://freelance-marketplace-blyp-h3243xgxh-nikhita-taksandes-projects.vercel.app',
+      // Environment variables
       process.env.FRONTEND_URL,
       process.env.CLIENT_URL
     ].filter(Boolean); // Remove undefined values
