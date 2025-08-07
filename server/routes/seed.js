@@ -7,6 +7,105 @@ const Review = require('../models/Review');
 
 const router = express.Router();
 
+// GET endpoint for browser access (development only)
+router.get('/', async (req, res) => {
+  try {
+    console.log('🌱 Starting database seeding via GET request...');
+    
+    // Sample users data
+    const sampleUsers = [
+      {
+        name: 'Renu User',
+        email: 'renu1@gmail.com',
+        password: await bcrypt.hash('renu123456', 10),
+        role: 'freelancer',
+        skills: ['React', 'Node.js', 'JavaScript', 'MongoDB'],
+        hourlyRate: 50,
+        profilePic: 'https://images.unsplash.com/photo-1494790108755-2616b612b05b?w=150&h=150&fit=crop&crop=face'
+      },
+      {
+        name: 'Renu Client',
+        email: 'renu2@gmail.com',
+        password: await bcrypt.hash('renu1234567', 10),
+        role: 'client',
+        profilePic: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&h=150&fit=crop&crop=face'
+      },
+      {
+        name: 'Nikhita',
+        email: 'nikhita@gmail.com',
+        password: await bcrypt.hash('nikhita123', 10),
+        role: 'freelancer',
+        skills: ['UI/UX Design', 'Graphic Design', 'Logo Design'],
+        hourlyRate: 40,
+        profilePic: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=150&h=150&fit=crop&crop=face'
+      }
+    ];
+
+    // Clear existing data
+    await User.deleteMany({});
+    await Gig.deleteMany({});
+    await Order.deleteMany({});
+    await Review.deleteMany({});
+
+    // Create users
+    const createdUsers = await User.insertMany(sampleUsers);
+    console.log(`✓ Created ${createdUsers.length} users`);
+
+    // Sample gigs
+    const sampleGigs = [
+      {
+        title: 'I will create a modern responsive website with React and Node.js',
+        category: 'Web Development',
+        description: 'I will build you a professional, modern, and fully responsive website using the latest technologies like React.js and Node.js. Your website will be optimized for all devices and include a user-friendly admin panel.',
+        price: 299,
+        deliveryTime: 7,
+        userId: createdUsers[0]._id,
+        tags: ['react', 'nodejs', 'javascript', 'mongodb', 'responsive'],
+        images: ['https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=400&h=300&fit=crop'],
+        features: ['Responsive Design', 'Admin Panel', 'Database Integration', 'SEO Optimized'],
+        requirements: 'Please provide your website requirements, color preferences, and any existing branding materials.'
+      },
+      {
+        title: 'I will design a professional logo for your business',
+        category: 'Design',
+        description: 'I will create a unique, professional logo that perfectly represents your brand. You will receive multiple concepts, unlimited revisions, and final files in all formats.',
+        price: 149,
+        deliveryTime: 3,
+        userId: createdUsers[2]._id,
+        tags: ['logo', 'design', 'branding', 'graphics'],
+        images: ['https://images.unsplash.com/photo-1626785774573-4b799315345d?w=400&h=300&fit=crop'],
+        features: ['Multiple Concepts', 'Unlimited Revisions', 'All File Formats', 'Brand Guidelines'],
+        requirements: 'Please describe your business, target audience, preferred colors, and style preferences.'
+      }
+    ];
+
+    const createdGigs = await Gig.insertMany(sampleGigs);
+    console.log(`✓ Created ${createdGigs.length} gigs`);
+
+    res.json({
+      success: true,
+      message: 'Database seeded successfully!',
+      data: {
+        users: createdUsers.length,
+        gigs: createdGigs.length,
+        credentials: [
+          { email: 'renu1@gmail.com', password: 'renu123456', role: 'freelancer' },
+          { email: 'renu2@gmail.com', password: 'renu1234567', role: 'client' },
+          { email: 'nikhita@gmail.com', password: 'nikhita123', role: 'freelancer' }
+        ]
+      }
+    });
+
+  } catch (error) {
+    console.error('❌ Seeding error:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Failed to seed database',
+      error: error.message
+    });
+  }
+});
+
 // Seed database endpoint (development only)
 router.post('/seed', async (req, res) => {
   try {
