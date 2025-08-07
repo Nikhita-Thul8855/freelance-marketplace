@@ -43,7 +43,11 @@ const RealTimeChat = ({ otherUser, onClose }) => {
 
   // Initialize socket connection and load messages
   useEffect(() => {
-    if (!user || !otherUser || !token) return;
+    if (!user || !otherUser || !token) {
+      console.log('❌ Missing required data for chat:', { user: !!user, otherUser: !!otherUser, token: !!token });
+      setConnectionStatus('error');
+      return;
+    }
 
     console.log('🚀 Initializing real-time chat...');
     console.log('Current user:', user.name);
@@ -51,6 +55,8 @@ const RealTimeChat = ({ otherUser, onClose }) => {
 
     // Connect to socket
     try {
+      setConnectionStatus('connecting');
+      
       socketService.connect(token);
       
       // Join conversation room
@@ -61,6 +67,8 @@ const RealTimeChat = ({ otherUser, onClose }) => {
 
       // Setup event listeners
       setupSocketListeners();
+      
+      setConnectionStatus('connected');
 
     } catch (error) {
       console.error('❌ Failed to initialize chat:', error);

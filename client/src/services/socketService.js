@@ -17,7 +17,11 @@ class SocketService {
     }
 
     try {
-      this.socket = io('http://localhost:5000', {
+      // Use environment variable or fallback to localhost
+      const socketUrl = process.env.REACT_APP_API_URL?.replace('/api', '') || 'http://localhost:5001';
+      console.log('Socket connecting to:', socketUrl);
+      
+      this.socket = io(socketUrl, {
         auth: {
           token: token
         },

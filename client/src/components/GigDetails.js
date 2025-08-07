@@ -71,14 +71,22 @@ const GigDetails = () => {
     setPurchaseLoading(true);
     
     try {
+      console.log('Creating order for gig:', currentGig._id);
+      console.log('Requirements:', requirements);
+      
       // Create order directly using our order service
       const response = await orderService.createOrder(currentGig._id, requirements);
+      
+      console.log('Order response:', response);
       
       if (response.success) {
         // Close modal
         setShowPurchaseModal(false);
+        setRequirements('');
+        
         // Show success message
-        alert('Order created successfully! You can track its progress in your dashboard.');
+        alert(`Order created successfully! Order ID: ${response.data.orderId}`);
+        
         // Navigate to orders page
         navigate('/orders');
       } else {
@@ -86,7 +94,7 @@ const GigDetails = () => {
       }
     } catch (error) {
       console.error('Purchase error:', error);
-      alert(`Order creation failed: ${error.message}`);
+      alert(`Order creation failed: ${error.message || 'Unknown error occurred'}`);
     } finally {
       setPurchaseLoading(false);
     }

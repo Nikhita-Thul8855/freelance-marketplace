@@ -132,6 +132,7 @@ app.use('/api/messages', require('./routes/messages'));
 app.use('/api/deliverables', require('./routes/deliverables'));
 app.use('/api/reviews', require('./routes/reviewRoutes'));
 app.use('/api/admin', require('./routes/admin'));
+app.use('/api/seed', require('./routes/seed')); // Add seed route for development
 
 // Error handling middleware
 app.use((error, req, res, next) => {
@@ -168,7 +169,27 @@ const PORT = process.env.PORT || 5000;
 // Socket.io real-time messaging
 require('./socket/messageSocket')(io);
 
+// Handle port conflicts gracefully
+server.on('error', (error) => {
+  if (error.code === 'EADDRINUSE') {
+    console.error(`❌ Port ${PORT} is already in use!`);
+    console.log('💡 Solutions:');
+    console.log('1. Run: taskkill /F /IM node.exe');
+    console.log('2. Or use: npm run stop-marketplace.bat');
+    console.log('3. Wait 10 seconds and try again');
+    process.exit(1);
+  } else {
+    console.error('❌ Server error:', error);
+    process.exit(1);
+  }
+});
+
 server.listen(PORT, () => {
   console.log(`🚀 Server running on port ${PORT}`);
   console.log(`📡 Socket.io server ready for real-time messaging`);
+  console.log(`🌐 API Base URL: http://localhost:${PORT}`);
+  console.log(`🔐 Your credentials:`);
+  console.log(`   Freelancer: renu1@gmail.com / renu123456`);
+  console.log(`   Client: renu2@gmail.com / renu1234567`);
+  console.log(`   Admin: nikhita@gmail.com / nikhita123`);
 });
