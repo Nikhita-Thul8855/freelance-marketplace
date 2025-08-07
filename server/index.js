@@ -20,7 +20,7 @@ if (missingEnvVars.length > 0 && process.env.NODE_ENV === 'production') {
 if (!process.env.MONGO_URI) {
   process.env.MONGO_URI = "mongodb://localhost:27017/freelance-marketplace";
   process.env.JWT_SECRET = "freelance_marketplace_super_secret_key_2024_production_ready";
-  process.env.PORT = "5000";
+  process.env.PORT = "5001";
   process.env.NODE_ENV = "development";
   console.log("🔧 Using fallback environment variables for development");
 }
